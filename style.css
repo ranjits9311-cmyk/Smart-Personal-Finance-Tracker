@@ -1,0 +1,67 @@
+:root {
+    --primary: #6366f1;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --bg: #0f172a;
+}
+
+body {
+    background: var(--bg);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.app-container {
+    width: 400px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.balance-card {
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    padding: 20px;
+    border-radius: 16px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: white;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.list { list-style: none; padding: 0; }
+.list li {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    border-left: 5px solid #fff;
+}
+
+.list li.plus { border-left-color: var(--success); }
+.list li.minus { border-left-color: var(--danger); }

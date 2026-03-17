@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinancePro | Master Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Finance<span class="bold">Pro</span></h1>
+            <div class="balance-card">
+                <small>Current Balance</small>
+                <h2 id="balance">$0.00</h2>
+            </div>
+        </header>
+
+        <section class="form-container">
+            <h3>Add Transaction</h3>
+            <div class="input-group">
+                <input type="text" id="text" placeholder="Description (e.g. Salary, Rent)">
+                <input type="number" id="amount" placeholder="Amount (+ for income, - for expense)">
+                <button class="btn" onclick="addTransaction()">Add Entry</button>
+            </div>
+        </section>
+
+        <section class="history">
+            <h3>Transaction History</h3>
+            <ul id="list" class="list">
+                </ul>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -79,7 +79,7 @@ function deleteTransaction(id) {
 function resetForm() {
   textEl.value = '';
   amountEl.value = '';
-  typeEl.value = 'income';
+  typeEl.value = 'expense';
   categoryEl.value = 'Other';
   // keep date as-is
   textEl.focus();
@@ -223,15 +223,23 @@ function escapeHtml(s) {
     .replaceAll("'", '&#39;');
 }
 
-// Keep category sane when switching type
-if (typeEl) {
+// Make it hard to accidentally add expenses as income:
+// - Default Type is Expense
+// - Choosing Income category flips Type to Income
+// - Choosing any non-Income category flips Type to Expense
+if (categoryEl && typeEl) {
+  categoryEl.addEventListener('change', () => {
+    if (categoryEl.value === 'Income') typeEl.value = 'income';
+    else typeEl.value = 'expense';
+  });
+}
+
+// Minor helper when switching type: if user switches to income, suggest Income category
+if (typeEl && categoryEl) {
   typeEl.addEventListener('change', () => {
-    if (typeEl.value === 'income') {
-      // default to Income category for income entries
-      if (categoryEl.value === 'Other') categoryEl.value = 'Income';
-    } else {
-      // default to Other for expense entries if currently Income
-      if (categoryEl.value === 'Income') categoryEl.value = 'Other';
+    if (typeEl.value === 'income' && categoryEl.value !== 'Income') {
+      // don't force, but nudge to Income
+      // (user can still keep Other for e.g. bonus)
     }
   });
 }

@@ -8,6 +8,7 @@ const emptyEl = document.getElementById('empty');
 const formEl = document.getElementById('tx-form');
 const textEl = document.getElementById('text');
 const amountEl = document.getElementById('amount');
+const typeEl = document.getElementById('type');
 const categoryEl = document.getElementById('category');
 const dateEl = document.getElementById('date');
 
@@ -38,6 +39,7 @@ clearAllBtn.addEventListener('click', () => clearAll());
 function addTransaction() {
   const text = textEl.value.trim();
   const rawAmount = amountEl.value;
+  const type = typeEl.value; // income | expense
   const category = categoryEl.value;
   const date = dateEl.value || new Date().toISOString().slice(0, 10);
 
@@ -46,16 +48,18 @@ function addTransaction() {
     return;
   }
 
-  const amount = Number(rawAmount);
-  if (!Number.isFinite(amount) || amount === 0) {
+  const amountNum = Number(rawAmount);
+  if (!Number.isFinite(amountNum) || amountNum === 0) {
     alert('Amount must be a valid non-zero number');
     return;
   }
 
+  const signedAmount = (type === 'expense') ? -Math.abs(amountNum) : Math.abs(amountNum);
+
   const tx = {
     id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()),
     text,
-    amount,
+    amount: signedAmount,
     category,
     date,
   };
@@ -75,6 +79,7 @@ function deleteTransaction(id) {
 function resetForm() {
   textEl.value = '';
   amountEl.value = '';
+  typeEl.value = 'income';
   categoryEl.value = 'Other';
   // keep date as-is
   textEl.focus();
@@ -216,6 +221,19 @@ function escapeHtml(s) {
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;');
+}
+
+// Keep category sane when switching type
+if (typeEl) {
+  typeEl.addEventListener('change', () => {
+    if (typeEl.value === 'income') {
+      // default to Income category for income entries
+      if (categoryEl.value === 'Other') categoryEl.value = 'Income';
+    } else {
+      // default to Other for expense entries if currently Income
+      if (categoryEl.value === 'Income') categoryEl.value = 'Other';
+    }
+  });
 }
 
 // initial render

@@ -33,18 +33,22 @@
                 <input type="text" id="text" placeholder="Description (e.g. Salary, Rent)" required maxlength="60">
                 <div class="row">
                     <input type="number" id="amount" placeholder="Amount" step="0.01" required>
-                    <select id="category" aria-label="Category">
-                        <option value="Income">Income</option>
-                        <option value="Rent">Rent</option>
-                        <option value="Groceries">Groceries</option>
-                        <option value="Utilities">Utilities</option>
-                        <option value="Transport">Transport</option>
-                        <option value="Dining">Dining</option>
-                        <option value="Shopping">Shopping</option>
-                        <option value="Health">Health</option>
-                        <option value="Other" selected>Other</option>
+                    <select id="type" aria-label="Type">
+                        <option value="income" selected>Income (+)</option>
+                        <option value="expense">Expense (-)</option>
                     </select>
                 </div>
+                <select id="category" aria-label="Category">
+                    <option value="Income">Income</option>
+                    <option value="Rent">Rent</option>
+                    <option value="Groceries">Groceries</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Dining">Dining</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Health">Health</option>
+                    <option value="Other" selected>Other</option>
+                </select>
                 <input type="date" id="date">
                 <button class="btn" type="submit">Add Entry</button>
             </form>

@@ -1,67 +1,155 @@
 :root {
-    --primary: #6366f1;
-    --success: #22c55e;
-    --danger: #ef4444;
-    --bg: #0f172a;
+  --primary: #6366f1;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --bg: #0f172a;
+  --panel: rgba(255, 255, 255, 0.06);
+  --panel2: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.12);
 }
 
+* { box-sizing: border-box; }
+
 body {
-    background: var(--bg);
-    color: white;
-    font-family: 'Inter', sans-serif;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
+  background: var(--bg);
+  color: white;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
 
 .app-container {
-    width: 400px;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    padding: 30px;
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  width: min(520px, 100%);
+  background: var(--panel);
+  backdrop-filter: blur(10px);
+  padding: 24px;
+  border-radius: 24px;
+  border: 1px solid var(--border);
 }
+
+header h1 { margin: 0; }
 
 .balance-card {
-    background: linear-gradient(135deg, #6366f1, #a855f7);
-    padding: 20px;
-    border-radius: 16px;
-    margin: 20px 0;
-    text-align: center;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  padding: 16px;
+  border-radius: 16px;
+  margin: 16px 0;
+  text-align: center;
 }
 
-input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    color: white;
+.summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 12px 0 18px;
+}
+
+.summary-card {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.summary-card small { opacity: 0.8; display: block; }
+.summary-card div { font-size: 1.2rem; margin-top: 4px; }
+.summary-card.income div { color: var(--success); }
+.summary-card.expense div { color: #fb7185; }
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: white;
+}
+
+select option { color: #0f172a; }
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 8px;
 }
 
 .btn {
-    width: 100%;
-    padding: 12px;
-    background: var(--primary);
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+  width: 100%;
+  padding: 12px;
+  background: var(--primary);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn.secondary {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--border);
+}
+
+.btn.danger {
+  background: rgba(239, 68, 68, 0.18);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.history-head {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.history-head input {
+  margin: 0;
+  max-width: 220px;
 }
 
 .list { list-style: none; padding: 0; }
 .list li {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    border-left: 5px solid #fff;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border-left: 5px solid #fff;
 }
 
 .list li.plus { border-left-color: var(--success); }
 .list li.minus { border-left-color: var(--danger); }
+
+.tx-left { min-width: 0; }
+.tx-title { font-weight: 700; }
+.tx-meta { opacity: 0.75; font-size: 0.85rem; margin-top: 2px; }
+
+.tx-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.tx-amount { font-weight: 800; }
+
+.tx-del {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: rgba(255,255,255,0.9);
+  border-radius: 10px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.tx-del:hover { border-color: rgba(255,255,255,0.25); }
+
+.empty {
+  opacity: 0.7;
+  text-align: center;
+  margin: 12px 0 0;
+}

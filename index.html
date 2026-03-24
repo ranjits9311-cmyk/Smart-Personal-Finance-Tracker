@@ -16,19 +16,51 @@
             </div>
         </header>
 
+        <section class="summary">
+            <div class="summary-card income">
+                <small>Income</small>
+                <div id="income">$0.00</div>
+            </div>
+            <div class="summary-card expense">
+                <small>Expenses</small>
+                <div id="expense">$0.00</div>
+            </div>
+        </section>
+
         <section class="form-container">
             <h3>Add Transaction</h3>
-            <div class="input-group">
-                <input type="text" id="text" placeholder="Description (e.g. Salary, Rent)">
-                <input type="number" id="amount" placeholder="Amount (+ for income, - for expense)">
-                <button class="btn" onclick="addTransaction()">Add Entry</button>
+            <form id="tx-form" class="input-group" autocomplete="off">
+                <input type="text" id="text" placeholder="Description (e.g. Salary, Rent)" required maxlength="60">
+                <div class="row">
+                    <input type="number" id="amount" placeholder="Amount" step="0.01" required>
+                    <select id="category" aria-label="Category">
+                        <option value="Income">Income</option>
+                        <option value="Rent">Rent</option>
+                        <option value="Groceries">Groceries</option>
+                        <option value="Utilities">Utilities</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Dining">Dining</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Health">Health</option>
+                        <option value="Other" selected>Other</option>
+                    </select>
+                </div>
+                <input type="date" id="date">
+                <button class="btn" type="submit">Add Entry</button>
+            </form>
+            <div class="actions">
+                <button class="btn secondary" id="exportCsv" type="button">Export CSV</button>
+                <button class="btn danger" id="clearAll" type="button">Clear All</button>
             </div>
         </section>
 
         <section class="history">
-            <h3>Transaction History</h3>
-            <ul id="list" class="list">
-                </ul>
+            <div class="history-head">
+                <h3>Transaction History</h3>
+                <input id="search" type="search" placeholder="Search transactions…" aria-label="Search transactions">
+            </div>
+            <ul id="list" class="list"></ul>
+            <p id="empty" class="empty">No transactions yet.</p>
         </section>
     </div>
     <script src="script.js"></script>

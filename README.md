@@ -10,6 +10,7 @@ A lightweight personal finance tracker built with **vanilla HTML/CSS/JS**.
 - Delete individual transactions
 - **LocalStorage persistence** (keeps your data after refresh)
 - Export all transactions to **CSV**
+- Backup / Restore using **JSON** (data safety)
 
 ## Run locally
 

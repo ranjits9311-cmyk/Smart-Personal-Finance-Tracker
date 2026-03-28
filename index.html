@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinancePro | Master Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#111827">
 </head>
 <body>
     <div class="app-container">
@@ -54,6 +56,9 @@
             </form>
             <div class="actions">
                 <button class="btn secondary" id="exportCsv" type="button">Export CSV</button>
+                <button class="btn secondary" id="exportJson" type="button">Backup JSON</button>
+                <button class="btn secondary" id="importJson" type="button">Restore JSON</button>
+                <input id="importJsonFile" type="file" accept="application/json" hidden>
                 <button class="btn danger" id="clearAll" type="button">Clear All</button>
             </div>
         </section>

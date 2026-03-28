@@ -14,6 +14,9 @@ const dateEl = document.getElementById('date');
 
 const searchEl = document.getElementById('search');
 const exportCsvBtn = document.getElementById('exportCsv');
+const exportJsonBtn = document.getElementById('exportJson');
+const importJsonBtn = document.getElementById('importJson');
+const importJsonFileEl = document.getElementById('importJsonFile');
 const clearAllBtn = document.getElementById('clearAll');
 
 const STORAGE_KEY = 'spft.transactions.v1';
@@ -34,6 +37,9 @@ formEl.addEventListener('submit', (e) => {
 
 searchEl.addEventListener('input', () => render());
 exportCsvBtn.addEventListener('click', () => exportCsv());
+exportJsonBtn.addEventListener('click', () => exportJson());
+importJsonBtn.addEventListener('click', () => importJsonFileEl.click());
+importJsonFileEl.addEventListener('change', () => importJson());
 clearAllBtn.addEventListener('click', () => clearAll());
 
 function addTransaction() {
@@ -179,11 +185,30 @@ function render() {
   balanceEl.textContent = money(total);
 }
 
+let lastDeletedSnapshot = null;
+let undoTimer = null;
+
 function clearAll() {
-  if (!confirm('Clear all transactions? This cannot be undone.')) return;
+  if (!transactions.length) return;
+  if (!confirm('Clear all transactions? You can undo for 15 seconds.')) return;
+
+  lastDeletedSnapshot = [...transactions];
   transactions = [];
   persist();
   render();
+
+  if (undoTimer) clearTimeout(undoTimer);
+  undoTimer = setTimeout(() => {
+    lastDeletedSnapshot = null;
+  }, 15000);
+
+  const undo = confirm('Cleared. Undo? (available for 15 seconds)');
+  if (undo && lastDeletedSnapshot) {
+    transactions = lastDeletedSnapshot;
+    lastDeletedSnapshot = null;
+    persist();
+    render();
+  }
 }
 
 function exportCsv() {
@@ -206,6 +231,62 @@ function exportCsv() {
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
+}
+
+function exportJson() {
+  const payload = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    transactions,
+  };
+
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `finance-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function importJson() {
+  const file = importJsonFileEl.files && importJsonFileEl.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(String(reader.result || ''));
+      const arr = Array.isArray(parsed) ? parsed : parsed.transactions;
+      if (!Array.isArray(arr)) throw new Error('Invalid backup format');
+
+      const cleaned = arr
+        .filter(Boolean)
+        .map(t => ({
+          id: String(t.id ?? ''),
+          text: String(t.text ?? ''),
+          amount: Number(t.amount ?? 0),
+          category: String(t.category ?? 'Other'),
+          date: String(t.date ?? ''),
+        }))
+        .filter(t => t.id && t.text && Number.isFinite(t.amount));
+
+      if (!confirm(`Restore ${cleaned.length} transactions? This will replace your current list.`)) return;
+
+      transactions = cleaned;
+      persist();
+      render();
+      alert('Restore complete.');
+    } catch (e) {
+      alert('Could not restore backup. Please choose a valid JSON backup file.');
+    } finally {
+      importJsonFileEl.value = '';
+    }
+  };
+  reader.readAsText(file);
 }
 
 function csvEscape(s) {

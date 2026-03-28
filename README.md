@@ -12,6 +12,10 @@ A lightweight personal finance tracker built with **vanilla HTML/CSS/JS**.
 - Export all transactions to **CSV**
 - Backup / Restore using **JSON** (data safety)
 
+## Live demo
+
+https://ranjits9311-cmyk.github.io/Smart-Personal-Finance-Tracker/
+
 ## Run locally
 
 Just open `index.html` in your browser.
